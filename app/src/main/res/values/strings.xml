@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">دنیای روپولی</string>
+    <string name="app_subtitle">MONOPOLY WORLD 3D</string>
+
+    <!-- منوی اصلی -->
+    <string name="menu_new_game">شروع بازی</string>
+    <string name="menu_continue">ادامه بازی</string>
+    <string name="menu_single">بازی تک‌نفره</string>
+    <string name="menu_multi">بازی چندنفره</string>
+    <string name="menu_rules">قوانین بازی</string>
+    <string name="menu_achievements">دستاوردها</string>
+    <string name="menu_stats">آمار بازی</string>
+    <string name="menu_settings">تنظیمات</string>
+    <string name="menu_about">درباره بازی</string>
+    <string name="menu_exit">خروج</string>
+
+    <!-- بازی جدید -->
+    <string name="new_game_title">بازی جدید</string>
+    <string name="mode_single">تک‌نفره (در برابر رایانه)</string>
+    <string name="mode_multi">چندنفره (یک گوشی)</string>
+    <string name="player_count">تعداد بازیکنان</string>
+    <string name="opponents">تعداد حریفان رایانه</string>
+    <string name="ai_difficulty">سطح دشواری رایانه</string>
+    <string name="player_name">نام بازیکن</string>
+    <string name="choose_token">انتخاب مهره</string>
+    <string name="choose_color">انتخاب رنگ</string>
+    <string name="start_game">شروع بازی</string>
+    <string name="back">بازگشت</string>
+    <string name="easy">آسان</string>
+    <string name="normal">متوسط</string>
+    <string name="hard">سخت</string>
+
+    <!-- HUD بازی -->
+    <string name="roll_dice">بریز تاس</string>
+    <string name="end_turn">پایان نوبت</string>
+    <string name="trade">معامله</string>
+    <string name="build">ساخت</string>
+    <string name="sell">فروش</string>
+    <string name="mortgage">رهن</string>
+    <string name="redeem">آزادسازی</string>
+    <string name="manage">مدیریت املاک</string>
+    <string name="pause">مکث</string>
+    <string name="buy">خرید</string>
+    <string name="decline">خرید نمی‌کنم</string>
+    <string name="confirm">تأیید</string>
+    <string name="cancel">انصراف</string>
+    <string name="accept">پذیرش</string>
+    <string name="reject">رد</string>
+    <string name="counter_offer">پیشنهاد متقابل</string>
+
+    <!-- تنظیمات -->
+    <string name="settings_title">تنظیمات</string>
+    <string name="graphics_quality">کیفیت گرافیک</string>
+    <string name="music_volume">صدای موسیقی</string>
+    <string name="sfx_volume">جلوه‌های صوتی</string>
+    <string name="vibration">لرزش</string>
+    <string name="animations">انیمیشن‌ها</string>
+    <string name="auto_camera">دوربین خودکار</string>
+    <string name="dice_animation">انیمیشن تاس</string>
+    <string name="game_speed">سرعت بازی</string>
+    <string name="language">زبان بازی</string>
+    <string name="language_fa">فارسی (پیش‌فرض)</string>
+    <string name="low">کم</string>
+    <string name="medium">متوسط</string>
+    <string name="high">زیاد</string>
+    <string name="slow">آرام</string>
+    <string name="speed_normal">معمولی</string>
+    <string name="fast">سریع</string>
+
+    <!-- نتیجه -->
+    <string name="victory">🏆 پیروزی!</string>
+    <string name="defeat">💀 شکست</string>
+    <string name="winner_is">برنده:</string>
+    <string name="play_again">بازی دوباره</string>
+    <string name="main_menu">منوی اصلی</string>
+    <string name="final_rankings">رتبه‌بندی نهایی</string>
+    <string name="game_duration">مدت بازی</string>
+
+    <!-- متفرقه -->
+    <string name="save_game">ذخیره بازی</string>
+    <string name="load_game">بارگذاری</string>
+    <string name="delete">حذف</string>
+    <string name="empty_slot">اسلات خالی</string>
+    <string name="resume">ادامه</string>
+    <string name="quit_game">خروج از بازی</string>
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_dark">#FF101828</color>
+    <color name="bg_panel">#E6142238</color>
+    <color name="accent">#FFD4A017</color>
+    <color name="accent_red">#FFC0392B</color>
+    <color name="accent_green">#FF27AE60</color>
+    <color name="text_primary">#FFF5EFE0</color>
+    <color name="text_secondary">#FFC8BFA8</color>
+    <color name="board_cream">#FFF3EAD3</color>
+    <color name="wood">#FF8B5A2B</color>
+    <color name="danger">#FFE74C3C</color>
+    <color name="success">#FF2ECC71</color>
+</resources>
