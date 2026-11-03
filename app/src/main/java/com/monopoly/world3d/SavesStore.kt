@@ -76,15 +76,6 @@ class SavesStore(private val context: Context) {
         }
     }
 
-    /** بارگذاری ذخیره‌ی خودکار با بازسازی حراج نیمه‌کاره */
-    fun loadAuto(): GameState? {
-        val state = load(AUTO) ?: return null
-        val restart = state.pendingAuctionRestart
-        if (restart >= 0) {
-            state.pendingAuctionRestart = -1
-            val engine = com.monopoly.world3d.engine.Engine(state)
-            engine.startAuction(restart)
-        }
-        return state
-    }
+    /** بارگذاری ذخیره‌ی خودکار (بازسازی حراج نیمه‌کاره در GameActivity انجام می‌شود) */
+    fun loadAuto(): GameState? = load(AUTO)
 }

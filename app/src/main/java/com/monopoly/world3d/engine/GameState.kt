@@ -106,10 +106,12 @@ class GameState(
 
     fun statsFor(playerId: Int): PlayerGameStats = playerStats[playerId]
 
-    /** آماده‌سازی دسته‌ی کارت‌ها با rng */
+    /** آماده‌سازی دسته‌ی کارت‌ها با rng — لیست‌ها در جا پر می‌شوند تا اشاره‌گرهای موجود معتبر بمانند */
     fun shuffleDecks() {
-        chanceDeck = Cards.chanceIds().toMutableList()
-        chestDeck = Cards.chestIds().toMutableList()
+        chanceDeck.clear()
+        chanceDeck.addAll(Cards.chanceIds())
+        chestDeck.clear()
+        chestDeck.addAll(Cards.chestIds())
         chanceDeck.shuffle(rng)
         chestDeck.shuffle(rng)
     }

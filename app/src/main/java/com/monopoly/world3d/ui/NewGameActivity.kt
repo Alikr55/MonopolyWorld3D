@@ -242,8 +242,8 @@ class NewGameActivity : android.app.Activity() {
         playersContainer.removeAllViews()
         while (humanNames.size < humanCount) {
             humanNames.add(if (humanNames.isEmpty()) (application as MonopolyApp).settings.lastPlayerName else "")
-            humanTokens.add(humanNames.size - 1 % TokenKind.entries.size)
-            humanColors.add(humanNames.size - 1)
+            humanTokens.add((humanNames.size - 1) % TokenKind.entries.size)
+            humanColors.add((humanNames.size - 1) % Names.COLORS.size)
         }
         while (humanNames.size > humanCount) {
             humanNames.removeAt(humanNames.size - 1)
@@ -393,6 +393,8 @@ class NewGameActivity : android.app.Activity() {
             doubleRentOnMonopoly = ruleDoubleRent
         )
         val state = GameState(players.toMutableList(), rules)
+        // مقداردهی اولیه‌ی کامل بازی: موجودی ۱٫۵ میلیون تومانی، دسته‌ی کارت‌ها و وضعیت آغازین
+        com.monopoly.world3d.engine.Engine(state).startGame()
         GameSession.state = state
         GameSession.isSinglePlayer = (mode == "single")
         startActivity(Intent(this, GameActivity::class.java))

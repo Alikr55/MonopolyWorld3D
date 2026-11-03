@@ -78,8 +78,7 @@ class MainActivity : android.app.Activity() {
             startActivity(Intent(ctx, NewGameActivity::class.java).putExtra("mode", "single"))
         }
         addBtn(getString(R.string.menu_continue)) { ctx ->
-            val state = app.saves.loadAuto()
-            if (state != null) {
+            if (app.saves.exists(com.monopoly.world3d.SavesStore.AUTO)) {
                 startActivity(Intent(ctx, GameActivity::class.java).putExtra("loadAuto", true))
             } else {
                 Ui.toast(ctx, "بازی ذخیره‌شده‌ای وجود ندارد")
@@ -87,9 +86,6 @@ class MainActivity : android.app.Activity() {
         }
         addBtn("بارگذاری از اسلات") { ctx ->
             startActivity(Intent(ctx, SavesActivity::class.java))
-        }
-        addBtn(getString(R.string.menu_single)) { ctx ->
-            startActivity(Intent(ctx, NewGameActivity::class.java).putExtra("mode", "single"))
         }
         addBtn(getString(R.string.menu_multi)) { ctx ->
             startActivity(Intent(ctx, NewGameActivity::class.java).putExtra("mode", "multi"))

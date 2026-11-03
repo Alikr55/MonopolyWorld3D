@@ -606,9 +606,11 @@ class Engine(val state: GameState) {
     // ---------------- کارت‌ها ----------------
 
     private fun drawCard(p: Player, deck: Int, depth: Int) {
-        val deckRef = if (deck == Cards.DECK_CHANCE) state.chanceDeck else state.chestDeck
+        var deckRef = if (deck == Cards.DECK_CHANCE) state.chanceDeck else state.chestDeck
         if (deckRef.isEmpty()) {
             state.shuffleDecks()
+            // shuffleDecks ممکن است لیست را بازسازی کند؛ اشاره‌گر تازه گرفته می‌شود
+            deckRef = if (deck == Cards.DECK_CHANCE) state.chanceDeck else state.chestDeck
         }
         val cardId = deckRef.removeAt(0)
         // کارت‌های نگه‌داشتنی به دست برنمی‌گردند؛ بقیه به ته دسته برمی‌گردند

@@ -309,8 +309,11 @@ object AiDriver {
                 if (bidder < 0 || state.players[bidder].isHuman) return false
                 val minBid = auction.minimumNextBid(state.space(auction.spaceId).price)
                 val maxBid = brain.auctionMaxBid(state, bidder, auction.spaceId)
-                if (maxBid >= minBid && state.rng.nextDouble() < 0.85) {
-                    engine.auctionBid(bidder, min(maxBid, state.players[bidder].balance))
+                // مبلغ واقعی هرگز از موجودی بیشتر نیست؛ اگر از حداقل کمتر شد باید انصراف دهد
+                // وگرنه auctionBid بی‌صدا رد می‌شود و بازی هنگ می‌کند
+                val amount = min(maxBid, state.players[bidder].balance)
+                if (amount >= minBid && state.rng.nextDouble() < 0.85) {
+                    engine.auctionBid(bidder, amount)
                 } else {
                     engine.auctionPass(bidder)
                 }

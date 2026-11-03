@@ -106,10 +106,24 @@ class GlBoardRenderer(
         GLES20.glEnable(GLES20.GL_BLEND)
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA)
         GLES20.glDisable(GLES20.GL_CULL_FACE)
-        Shaders.init()
-        textures = BoardTextures(appContext, quality)
-        buildGeometry()
-        buildTextures()
+        try {
+            Shaders.init()
+        } catch (e: Exception) {
+            // بدون شیدر، صفحه سیاه می‌ماند ولی برنامه بسته نمی‌شود
+            android.util.Log.e("MonopolyGL", "خطای شیدر", e)
+        }
+        textures = try {
+            BoardTextures(appContext, quality)
+        } catch (e: Exception) {
+            android.util.Log.e("MonopolyGL", "خطای بافت", e)
+            BoardTextures(appContext, BoardTextures.QUALITY_LOW)
+        }
+        try {
+            buildGeometry()
+            buildTextures()
+        } catch (e: Exception) {
+            android.util.Log.e("MonopolyGL", "خطای ساخت هندسه", e)
+        }
         diceSettled[0] = faceRotation(diceTarget[0])
         diceSettled[1] = faceRotation(diceTarget[1])
     }
@@ -118,6 +132,8 @@ class GlBoardRenderer(
         GLES20.glViewport(0, 0, width, height)
         camera.aspect = width.toFloat() / maxOf(1, height)
     }
+
+    private var drawErrorLogged = false
 
     override fun onDrawFrame(gl: GL10?) {
         // اجرای فرمان‌های صف‌شده از رشته‌ی UI
@@ -128,14 +144,22 @@ class GlBoardRenderer(
         time += 1f / 60f
         updateAnimations()
 
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
-        camera.update()
-        if (menuMode) { drawCity(); return }
-        drawBoard()
-        drawFlagsAndBuildings()
-        drawTokens()
-        drawDice()
-        drawHighlight()
+        try {
+            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+            camera.update()
+            if (menuMode) { drawCity(); return }
+            drawBoard()
+            drawFlagsAndBuildings()
+            drawTokens()
+            drawDice()
+            drawHighlight()
+        } catch (e: Throwable) {
+            // هیچ خطای رندر نباید کل برنامه را ببندد
+            if (!drawErrorLogged) {
+                android.util.Log.e("MonopolyGL", "خطای ترسیم", e)
+                drawErrorLogged = true
+            }
+        }
     }
 
     // ---------------- ساخت هندسه و بافت ----------------

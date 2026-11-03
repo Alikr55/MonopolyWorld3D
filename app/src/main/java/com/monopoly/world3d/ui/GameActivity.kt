@@ -63,6 +63,12 @@ class GameActivity : Activity() {
         engine = Engine(state)
         GameSession.state = state
         GameSession.isSinglePlayer = state.players.any { !it.isHuman }
+        // اگر وسط حراج ذخیره شده بود، حراج از نو آغاز می‌شود (برای همه‌ی انواع بارگذاری)
+        if (state.pendingAuctionRestart in 0..39) {
+            val spaceId = state.pendingAuctionRestart
+            state.pendingAuctionRestart = -1
+            engine.startAuction(spaceId)
+        }
         buildUi()
         surface.renderer.syncState(state)
         updateHud()
@@ -331,6 +337,16 @@ class GameActivity : Activity() {
 
     private val aiStepRunnable = Runnable { aiStep() }
 
+    // گارد ضدمکث: اگر چند گام پشت‌سرهم وضعیت تغییر نکرد، نوبت اجباری بسته می‌شود
+    private var aiNoProgressCount = 0
+    private var lastAiSignature = ""
+
+    private fun aiSignature(): String =
+        listOf(state.awaiting.name, state.turnCounter, state.currentTurn, state.currentPlayer.balance,
+            state.debtAmount, state.hasRolled, state.rollAgain, state.currentPlayer.position,
+            state.auction?.highestBid, state.auction?.currentBidder(), state.pendingPurchaseSpace,
+            state.log.size).toString()
+
     private fun scheduleAi() {
         if (finished || state.isGameOver) return
         if (state.awaiting == DecisionKind.TRADE_RESPONSE) return
@@ -352,10 +368,23 @@ class GameActivity : Activity() {
             updateHud()
             return
         }
+        val sigBefore = aiSignature()
         val diceSigBefore = diceSignature()
         val cardBefore = state.lastDrawnCardId
         com.monopoly.world3d.engine.AiDriver.step(engine)
         val diceChanged = diceSignature() != diceSigBefore
+        aiNoProgressCount = if (aiSignature() == sigBefore) aiNoProgressCount + 1 else 0
+        if (aiNoProgressCount >= 40) {
+            // باید هرگز رخ ندهد؛ فقط برای اطمینان: نوبت به‌اجبار بسته می‌شود
+            aiNoProgressCount = 0
+            val auction = state.auction
+            if (auction != null) {
+                val bidder = auction.currentBidder()
+                if (bidder >= 0) engine.auctionPass(bidder)
+            } else if (engine.canEndTurn()) {
+                engine.endTurn()
+            }
+        }
 
         if (diceChanged && app.settings.animations) {
             animating = true

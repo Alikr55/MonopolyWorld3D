@@ -30,6 +30,34 @@ class MonopolyApp : Application() {
         audio = GameAudio(this, settings)
         stats = StatsStore(this)
         saves = SavesStore(this)
+        installCrashLogger()
+    }
+
+    /**
+     * ثبت سراسری خطاهای کشنده: stack trace در فایل ذخیره می‌شود تا علت هر کرش
+     * قابل بررسی باشد؛ و یک پیام فارسی به کاربر نشان داده می‌شود.
+     */
+    private fun installCrashLogger() {
+        val previous = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, error ->
+            try {
+                val cur = java.io.File(filesDir, "crash_log.txt")
+                val prev = java.io.File(filesDir, "crash_log_prev.txt")
+                if (cur.exists()) {
+                    prev.delete()
+                    cur.renameTo(prev)
+                }
+                val log = buildString {
+                    append("زمان: ")
+                    append(java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss", java.util.Locale.US)
+                        .format(java.util.Date()))
+                    append("\nرشته: ").append(thread.name).append("\n\n")
+                    append(android.util.Log.getStackTraceString(error))
+                }
+                cur.writeText(log)
+            } catch (_: Exception) { }
+            previous?.uncaughtException(thread, error)
+        }
     }
 }
 

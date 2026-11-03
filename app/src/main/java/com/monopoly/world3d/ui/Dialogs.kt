@@ -138,6 +138,12 @@ object Dialogs {
 
     fun showPurchase(activity: Activity, engine: Engine, onDone: () -> Unit): AlertDialog {
         val state = engine.state
+        // گارد: اگر فضای خرید نامعتبر بود (فایل ذخیره‌ی خراب)، دیالوگ باز نمی‌شود
+        if (state.pendingPurchaseSpace !in 0..39) {
+            state.awaiting = DecisionKind.NONE
+            onDone()
+            return AlertDialog.Builder(activity).create()
+        }
         val sp = state.space(state.pendingPurchaseSpace)
         val p = state.currentPlayer
         val panel = dialogPanel(activity)
